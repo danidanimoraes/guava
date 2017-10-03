@@ -12,7 +12,7 @@ public class GuavaOptional {
             System.out.println("Without guava");
             Integer a = null;
             Integer b = new Integer(1);
-            System.out.println(demo.sum(a, b)); // NPE occurs here
+            System.out.println(sum(a, b)); // NPE occurs here
         } catch (NullPointerException npe) {
             System.out.println("Oops, NPE!");
         }
@@ -34,7 +34,7 @@ public class GuavaOptional {
 
     }
 
-    private Integer sum(Integer a, Integer b) {
+    private static Integer sum(Integer a, Integer b) {
         return a + b;
     }
 
