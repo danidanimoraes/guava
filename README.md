@@ -14,6 +14,34 @@ The program then returns via stdout the assignments that were made, containing:
 - job_id: The ID of the assigned job
 - agent_id: The ID of the agent to whom the job was assigned
 
+## The solution
+
+**stdin.clj** is responsible for dealing with the JSON via stdin (as a file or plain text) and parsing it to
+a map. E.g., The JSON [{"a":"1"}] becomes the map [{:a "1"}]
+
+**sequences.clj** is responsible for dealing with sequences, like filtering the JSON map by key
+(e.g. filtering the agents by getting only :new_agent keys) and getting only the values of a map
+
+**entities.clj** deals with business entities: with the given JSON map, it gets only agents that are
+idle, by crossing information from agents map and requests map, it separates jobs by priority (urgent/
+not urgent) and it's also responsible for the assignment of jobs itself.
+
+This assignment is done by getting the jobs to be done. Then, it checks if any idle agent has the job
+type as a primary skill.
+
+If any agent is found, the job is assigned to this agent and both job and agent are removed from 
+available jobs and available agents maps, respectively.
+
+If no agent has the job type as a primary skill, it checks if any idle agent has it as a secondary skill.
+
+If any agent is found, the job is assigned to this agent and the process is the same as above.
+
+If no agent has the job type neither as primary nor secondary skills, the job is kept in the remain
+jobs map, since no agent was assigned to it.
+
+**core.clj** contains the user interface and the main function of the program, which receives the input
+JSON and outputs the response JSON.
+
 ## Usage
 
 Please make sure to have Java installed.
@@ -56,6 +84,26 @@ java -jar queues-0.1.0-SNAPSHOT-standalone.jar
 
 The following text will appear:
 
+```
+Hi there!
+This program will receive your JSON containing agents, jobs and requests and will return
+    the assignments made between jobs and agents.
+
+    First, you need to tell me if you want to give me the JSON as:
+
+    - [1] The name of the file that contains the JSON itself
+
+    - [2] Plain text written here on the stdin
+
+    Please, select one of the options
+```
+
+Now you have two options:
+
+- To provide the JSON as a file
+- To input the JSON content yourself
+
+Both ways are explained here.
 
 #### Providing the file
 
@@ -66,7 +114,7 @@ commodity :)
 
 Your screen should look like:
 
-<img src="providingfile.PNG"
+<img src="resources/providingfile.PNG"
 title="Providing the file"/>
 
 #### Typing the JSON content
@@ -76,5 +124,5 @@ title="Providing the file"/>
 
 Your screen should look like:
 
-<img src="providingtext.png"
+<img src="resources/providingtext.png"
 title="Providing the text"/>
