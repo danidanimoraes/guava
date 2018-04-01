@@ -66,7 +66,7 @@ commodity :)
 
 Your screen should look like:
 
-<img src="resources/providingfile.PNG"
+<img src="providingfile.PNG"
 title="Providing the file"/>
 
 #### Typing the JSON content
@@ -76,5 +76,5 @@ title="Providing the file"/>
 
 Your screen should look like:
 
-<img src="resources/providingtext.png"
+<img src="providingtext.png"
 title="Providing the text"/>
